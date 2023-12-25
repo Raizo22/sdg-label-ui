@@ -75,16 +75,26 @@ def main():
         text_input = None
 
     if st.button("Kirim"):
+        sdg_label_text = None
         if text_input:
             st.success(f"Anda memasukkan teks panjang berikut:\n{text_input}")
+            # Lakukan operasi untuk menentukan label SDGs berdasarkan teks yang dimasukkan
+            # sdg_label_text = Fungsi_untuk_menentukan_label_SDG(text_input)
+            sdg_label_text = "Teks ini terkait dengan SDG 7: Energi Bersih dan Terjangkau."
             display_performance_plot()
             st.write("Penjelasan tentang performa model")
         elif uploaded_file is not None:
             st.success("Anda telah mengunggah file PDF.")
+            # Ambil teks dari file PDF dan lakukan operasi untuk menentukan label SDGs
+            # sdg_label_text = Fungsi_untuk_menentukan_label_SDG(teks_dari_PDF)
+            sdg_label_text = "File PDF ini terkait dengan SDG 13: Tindakan Terhadap Perubahan Iklim."
             display_performance_plot()
             st.write("Penjelasan tentang performa model")
         else:
             st.warning("Harap lengkapi input.")
+
+        if sdg_label_text:
+            st.success(sdg_label_text)  # Menampilkan label SDGs yang terkait
 
     if uploaded_file is None and upload_option == "Unggah File PDF":
         st.warning("Anda belum mengunggah file PDF. Silakan unggah file PDF untuk melanjutkan.")
