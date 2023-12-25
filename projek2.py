@@ -10,7 +10,7 @@ def set_custom_style():
         <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f9f9f9; /* Warna latar belakang */
+            background-color: #f4f4f4; /* Warna latar belakang */
             color: #333333; /* Warna teks utama */
             margin: 0;
             padding: 0;
@@ -33,7 +33,7 @@ def set_custom_style():
             margin-top: 20px;
             padding: 12px;
             text-align: center;
-            background-color: #4CAF50; /* Warna tombol */
+            background-color: #008080; /* Warna tombol */
             color: white;
             border: none;
             border-radius: 8px;
@@ -42,10 +42,10 @@ def set_custom_style():
             font-weight: bold;
         }
         .btn:hover {
-            background-color: #45a049; /* Warna tombol saat hover */
+            background-color: #006666; /* Warna tombol saat hover */
         }
         .sidebar .sidebar-content {
-            background-color: #f4f4f4; /* Warna sidebar */
+            background-color: #dcdcdc; /* Warna sidebar */
             padding: 10px;
             border-radius: 10px;
         }
@@ -70,7 +70,7 @@ def main():
     upload_option = st.radio("", ("Masukkan Teks", "Unggah File PDF"))
 
     if upload_option == "Masukkan Teks":
-        text_input = st.text_area("Masukkan Teks Panjang", value="")  # Empty text area
+        text_input = st.text_area("Masukkan Teks Panjang", value="")  # Kotak teks kosong
         uploaded_file = None
     else:
         uploaded_file = st.file_uploader("Unggah File PDF", type="pdf")
@@ -79,9 +79,9 @@ def main():
     if st.button("Kirim"):
         if text_input:
             st.success(f"Anda memasukkan teks panjang berikut:\n{text_input}")
-            keyword_to_search = "health"  
+            keyword_to_search = "health"  # Kata kunci yang ingin dicari
             highlighted_text = highlight_keyword(text_input, keyword_to_search)
-            st.markdown(f"### Bagian yang berkaitan dengan '{text_input}':")
+            st.markdown(f"### Bagian yang berkaitan dengan '{keyword_to_search}':")
             st.markdown(highlighted_text)
         elif uploaded_file is not None:
             st.success("Anda telah mengunggah file PDF.")
@@ -95,12 +95,23 @@ def main():
         st.text_area("Masukkan Teks Panjang", "")  # Kotak teks kosong
 
     st.sidebar.title("Hal yang Sering Dicari")
-    st.sidebar.markdown("- Contoh 1")
-    st.sidebar.markdown("- Contoh 2")
-    st.sidebar.markdown("- Contoh 3")
+
+    # Dummy DataFrame
+    data = {
+        'Column1': ['Value1', 'Value2', 'Value3', 'Value4', 'Value5'],
+        'Column2': ['ValueA', 'ValueB', 'ValueC', 'ValueD', 'ValueE']
+    }
+    df = pd.DataFrame(data)
+
+    if df is not None:
+        for column in df.columns:
+            st.sidebar.markdown(f"#### {column}")
+            for value in df[column].value_counts().head().index.tolist():
+                st.sidebar.markdown(f"- {value}")
 
     st.header("Performa Model (Line Plot)")
 
+    # Membuat plot performa model (contoh menggunakan data acak)
     data = {
         'Epoch': np.arange(1, 11),
         'Loss': np.random.uniform(0.1, 0.5, 10),
