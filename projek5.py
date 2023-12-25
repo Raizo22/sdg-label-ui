@@ -65,11 +65,10 @@ def main():
     st.markdown("---")
     st.markdown("### Pilih salah satu opsi di bawah ini:")
 
-    # Pilihan untuk memasukkan teks atau file PDF
     upload_option = st.radio("", ("Masukkan Teks", "Unggah File PDF"))
 
     if upload_option == "Masukkan Teks":
-        text_input = st.text_area("Masukkan Teks Panjang", value="")  # Kotak teks kosong
+        text_input = st.text_area("Masukkan Teks Panjang", value="")
         uploaded_file = None
     else:
         uploaded_file = st.file_uploader("Unggah File PDF", type="pdf")
@@ -78,17 +77,18 @@ def main():
     if st.button("Kirim"):
         if text_input:
             st.success(f"Anda memasukkan teks panjang berikut:\n{text_input}")
-            # Operasi teks dengan kata kunci yang ingin dicari
+            display_performance_plot()
+            st.write("Penjelasan tentang performa model")
         elif uploaded_file is not None:
             st.success("Anda telah mengunggah file PDF.")
-            # Operasi dengan file PDF
+            display_performance_plot()
+            st.write("Penjelasan tentang performa model")
         else:
             st.warning("Harap lengkapi input.")
 
-    # Menampilkan pesan jika pengguna memilih 'Unggah File PDF' tetapi tidak mengunggah file
     if uploaded_file is None and upload_option == "Unggah File PDF":
         st.warning("Anda belum mengunggah file PDF. Silakan unggah file PDF untuk melanjutkan.")
-        st.text_area("Masukkan Teks Panjang", "")  # Kotak teks kosong
+        st.text_area("Masukkan Teks Panjang", "") 
 
     st.sidebar.title("Hal yang Sering Dicari")
 
@@ -104,34 +104,7 @@ def main():
             st.sidebar.markdown(f"#### {column}")
             for value in df[column].value_counts().head().index.tolist():
                 st.sidebar.markdown(f"- {value}")
-
-    st.header("Performa Model (Line Plot)")
-
-    # Membuat plot performa model (contoh menggunakan data acak)
-    data = {
-        'Epoch': np.arange(1, 11),
-        'Loss': np.random.uniform(0.1, 0.5, 10),
-        'Accuracy': np.random.uniform(0.6, 0.9, 10)
-    }
-    df = pd.DataFrame(data)
-
-    fig, ax1 = plt.subplots()
-
-    color = 'tab:red'
-    ax1.set_xlabel('Epoch')
-    ax1.set_ylabel('Loss', color=color)
-    ax1.plot(df['Epoch'], df['Loss'], color=color)
-    ax1.tick_params(axis='y', labelcolor=color)
-
-    ax2 = ax1.twinx()  
-    color = 'tab:blue'
-    ax2.set_ylabel('Accuracy', color=color)  
-    ax2.plot(df['Epoch'], df['Accuracy'], color=color)
-    ax2.tick_params(axis='y', labelcolor=color)
-
-    st.pyplot(fig)
-
-    st.title("Bingkai 17 Gambar")
+    st.title("17 SDGS")
 
     # List URL gambar dari berbagai sumber
     image_urls = [
@@ -151,6 +124,7 @@ def main():
         "https://via.placeholder.com/170",
         "https://via.placeholder.com/170",
         "https://via.placeholder.com/170",
+        "https://via.placeholder.com/170"
         # URL gambar dari sumber lainnya
     ]
     images = []  # Simpan semua gambar dalam list ini
@@ -178,6 +152,28 @@ def main():
             expander.image(image, use_column_width=True)
             expander.write(f"Penjelasan tentang {caption}")  # Ganti dengan penjelasan sesuai dengan gambar yang diklik
 
+def display_performance_plot():
+    data = {
+        'Epoch': np.arange(1, 11),
+        'Loss': np.random.uniform(0.1, 0.5, 10),
+        'Accuracy': np.random.uniform(0.6, 0.9, 10)
+    }
+    df = pd.DataFrame(data)
 
+    fig, ax1 = plt.subplots()
+
+    color = 'tab:red'
+    ax1.set_xlabel('Epoch')
+    ax1.set_ylabel('Loss', color=color)
+    ax1.plot(df['Epoch'], df['Loss'], color=color)
+    ax1.tick_params(axis='y', labelcolor=color)
+
+    ax2 = ax1.twinx()  
+    color = 'tab:blue'
+    ax2.set_ylabel('Accuracy', color=color)  
+    ax2.plot(df['Epoch'], df['Accuracy'], color=color)
+    ax2.tick_params(axis='y', labelcolor=color)
+
+    st.pyplot(fig)
 if __name__ == "__main__":
     main()
